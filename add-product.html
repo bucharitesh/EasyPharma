@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>EasyPharma &mdash; Add Products</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="/__/firebase/7.14.1/firebase-app.js"></script>
+    <script src="/__/firebase/7.14.1/firebase-auth.js"></script>
+    <script src="/__/firebase/7.14.1/firebase-database.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('product', {
+            template: '<div class="col-sm-6 col-lg-4 text-center item mb-4"><a href="shop-single.html"> <img src="images/product_04.png" alt="Image"></a><h3 class="text-dark"><a href="shop-single.html">Cetyl Pure</a></h3><p class="price"><del>45.00</del> &mdash; $20.00</p></div>'
+        })
+        Vue.component('login', {
+            name: "login"
+            , props: ['user']
+            , template: `<div class="icons" style="color: black"> <a v-if='user.uid==null' href="/login.html" class="btn btn-primary px-1 py-1" style="margin-left: 50px">Login</a> <a v-else class="btn btn-primary px-1 py-1" style="margin-left: 50px" v-cloak>Welcome {{user.displayName.split(" ")[0]}}!</a><a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"> <span class="icon-menu"></span></a></div>`
+        })
+        window.onload = function () {
+            var app = new Vue({
+                el: '#app'
+                , data: {
+                    user: {}
+                }
+            });
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    app.user = user
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="site-wrap">
+            <div class="site-navbar py-2">
+                <div class="search-wrap">
+                    <div class="container"> <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                        <form action="#" method="post">
+                            <input type="text" class="form-control" placeholder="Search keyword and hit enter..."> </form>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="logo">
+                            <div class="site-logo">
+                                <a href="index.html" class="js-logo-clone"><img src="images/logo.PNG" height="70px" /></a>
+                            </div>
+                        </div>
+                        <div class="main-nav d-none d-lg-block">
+                            <nav class="site-navigation text-right text-md-center" role="navigation">
+                                <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="shop.html">Store</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                    <li class="active"><a href="add-product.html">Add product</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <login :user="user"></login>
+                    </div>
+                </div>
+            </div>
+            <div class="site-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-12">
+                            <form id="stock" class="stock">
+                                <div class="form-group" style="display:flex; flex-direction: row;">
+                                    <label for="medName" style="margin: 6px">Medicine Name</label>
+                                    <input type="text" class="form-control" id="medName" aria-describedby="medicineName" placeholder="Ex: Ibuprofen Tablets, 200mg" style="margin: 6px" required> </div>
+                                <div class="form-group" style="display:flex; flex-direction: row;">
+                                    <label for="medDesc" style="margin: 6px">Description</label>
+                                    <input type="textarea" class="form-control" id="medDesc" placeholder="Medicine Description" style="margin: 6px" required> </div>
+                                <div class="form-group" style="display:flex; flex-direction: row;">
+                                    <label for="medPrice" style="margin: 6px">MRP</label>
+                                    <input type="number" min="0" class="form-control" id="medPrice" placeholder="Per unit price in INR" style="margin: 6px" required>
+                                    <label for="medSP" style="margin: 6px">Discounted Price</label>
+                                    <input type="number" min="0" class="form-control" id="medSP" placeholder="Per unit price in INR(Leave blank if same as MRP)" style="margin: 6px">
+                                    <label for="medStock" style="margin: 6px">Stock</label>
+                                    <input type="number" min="0" class="form-control" id="medStock" placeholder="Stock in inventory" style="margin: 6px;" required> </div>
+                            </form>
+                            <button class="btn btn-primary" onclick="p()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="site-footer ">
+                <div class="container ">
+                    <div class="row ">
+                        <div class="col-md-6 col-lg-3 mb-4 mb-lg-0 ">
+                            <div class="block-7 ">
+                                <h3 class="footer-heading mb-4 ">About Us</h3>
+                                <p>EasyPharma aims to fulfill the gap that conventional pharmacies can't bridge down. 24/7 availability, Wide product categories, large stock.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 mx-auto mb-5 mb-lg-0 ">
+                            <h3 class="footer-heading mb-4 ">Quick Links</h3>
+                            <ul class="list-unstyled ">
+                                <li><a href="# ">Supplements</a></li>
+                                <li><a href="# ">Vitamins</a></li>
+                                <li><a href="# ">Diet &amp; Nutrition</a></li>
+                                <li><a href="# ">Tea &amp; Coffee</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 col-lg-3 ">
+                            <div class="block-5 mb-5 ">
+                                <h3 class="footer-heading mb-4 ">Contact Info</h3>
+                                <ul class="list-unstyled ">
+                                    <li class="address ">SRM Nagar</li>
+                                    <li class="phone "><a href="tel://23923929210 ">+91 9123099822</a></li>
+                                    <li class="email ">sempproject@srm.com</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-5 mt-5 text-center ">
+                        <div class="col-md-12 ">
+                            <p> Copyright &copy; 2020 All rights reserved | Made with <i class="icon-heart " aria-hidden="true "></i> by <a href="# " target="_blank " class="text-primary ">Rounak :: Ritesh :: Debaditya</a> </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        var db = firebase.database();
+        var n, d, mrp, sp, s
+        var stock = {}
+
+        function p() {
+            n = ($("#medName").val() != "" ? $("#medName").val() : null);
+            d = ($("#medDesc").val() != "" ? $("#medDesc").val() : null);
+            mrp = ($("#medPrice").val() != "" ? $("#medPrice").val() : null);
+            sp = ($("#medSP").val() != "" ? $("#medSP").val() : null);
+            s = ($("#medStock").val() != "" ? $("#medStock").val() : null);
+            stock = {
+                "name": n
+                , "description": d
+                , "mrp": mrp
+                , "sp": sp
+                , "stock": s
+            }
+            var stockRef = db.ref('med').push();
+            stockRef.set(stock);
+            setTimeout(function () {
+                location.reload()
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>
