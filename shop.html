@@ -6,14 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/aos.css">
-    <link rel="stylesheet" href="css/style.css">
     <script src="/__/firebase/7.14.1/firebase-app.js"></script>
     <script src="/__/firebase/7.14.1/firebase-auth.js"></script>
     <script src="/__/firebase/7.14.1/firebase-database.js"></script>
@@ -51,18 +43,19 @@
         }
     </style>
     <script>
+        console.log((location.search).substring(1))
         var usr = ""
         var products;
         var db = firebase.database();
         Vue.component('product', {
             props: ['name', 'mrp', 'sp', 'k', 'link']
             , name: "product"
-            , template: '<div class="col-sm-6 col-lg-4 text-center item mb-4"><a :href="link"> <img src="images/product_05.png" :alt="name"></a><h3 class="text-dark"><a :href="link">{{name}}</a></h3><p class="price" v-if="sp!=null">₹ {{sp}}</p><p class="price" v-else>₹ {{sp}}</p></div>'
+            , template: '<div class="col-sm-6 col-lg-4 text-center item mb-4"><a :href="link"> <img src="images/product_05.webp" alt="Image"></a><h3 class="text-dark"><a :href="link">{{name}}</a></h3><p class="price"v-if="sp!=null"><del>₹ {{mrp}} &mdash;</del>₹ {{sp}}</p><p class="price" v-else>₹ {{mrp}}</p></div>'
         })
         Vue.component('login', {
             name: "login"
             , props: ['user']
-            , template: `<div class="icons" style="color: black"> <a v-if='user.uid==null' href="/login.html" class="btn btn-primary px-1 py-1" style="margin-left: 50px">Login</a> <a v-else class="btn btn-primary px-1 py-1" style="margin-left: 50px" v-cloak>Welcome {{user.displayName.split(" ")[0]}}!</a><a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"> <span class="icon-menu"></span></a></div>`
+            , template: `<div class="icons" style="color: black"><a v-if='user.uid==null' href="/login.html" class="btn btn-primary px-1 py-1" style="margin-left: 50px;color: blanchedalmond;">Login</a><a v-else class="btn btn-primary px-1 py-1" style="margin-left: 50px;background-color: rgb(219, 45, 74); border-color: rgb(219, 45, 74); color: blanchedalmond;">Welcome {{user.displayName.split(" ")[0]}}!</a><a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"> <span class="icon-menu"></span></a></div>`
         })
         window.onload = function () {
             var app
@@ -77,9 +70,8 @@
                 if (user) {
                     app.user = user
                 }
-                else {}
             });
-            var freqMedRef = db.ref('med');
+            var freqMedRef = db.ref('med').limitToFirst(5);
             freqMedRef.on('value', function (snapshot) {
                 if (snapshot.val() != null) {
                     snapshot.forEach(function (child) {
@@ -109,7 +101,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="logo">
                             <div class="site-logo">
-                                <a href="index.html" class="js-logo-clone"><img src="images/logo.PNG" height="70px" /></a>
+                                <a href="index.html" class="js-logo-clone"><img src="images/logo.webp" height="70px" /></a>
                             </div>
                         </div>
                         <div class="main-nav d-none d-lg-block">
@@ -137,12 +129,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Reference</h3>
+                            
                             <button type="button" class="btn btn-secondary btn-md dropdown-toggle px-4" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuReference"> <a class="dropdown-item" href="#">Relevance</a> <a class="dropdown-item" href="#">Name, A to Z</a> <a class="dropdown-item" href="#">Name, Z to A</a>
                                 <div class="dropdown-divider"></div> <a class="dropdown-item" href="#">Price, low to high</a> <a class="dropdown-item" href="#">Price, high to low</a> </div>
                         </div>
                     </div>
+                    <br/><br/>
                     <div class="row">
                         <product v-for="p in prods " :key="p.key" :k="p.key" :name="p.val().name " :mrp="p.val().mrp " :sp="p.val().sp " :link="'/shop-single.html?'+p.key"></product>
                     </div>
@@ -159,22 +152,20 @@
                     </div>
                 </div>
             </div>
-            <div class="site-section bg-secondary bg-image " style="background-image: url( 'images/bg_2.jpg'); ">
+            <div class="site-section bg-secondary bg-image " style="background-image: url( 'images/bg_2.webp'); ">
                 <div class="container ">
                     <div class="row align-items-stretch ">
                         <div class="col-lg-6 mb-5 mb-lg-0 ">
-                            <a href="# " class="banner-1 h-100 d-flex " style="background-image: url( 'images/bg_1.jpg'); ">
+                            <a href="# " class="banner-1 h-100 d-flex " style="background-image: url( 'images/bg_1.webp'); ">
                                 <div class="banner-1-inner align-self-center ">
-                                    <h2>Pharma Products</h2>
-                                    <p>Find your medicine and order it now!</p>
+                                    
                                 </div>
                             </a>
                         </div>
                         <div class="col-lg-6 mb-5 mb-lg-0 ">
-                            <a href="# " class="banner-1 h-100 d-flex " style="background-image: url( 'images/bg_2.jpg'); ">
+                            <a href="# " class="banner-1 h-100 d-flex " style="background-image: url( 'images/bg_2.webp'); ">
                                 <div class="banner-1-inner ml-auto align-self-center ">
-                                    <h2>Telemedicine</h2>
-                                    <p>Book a slot and get diagonised by certified doctors sitting at home.</p>
+                                    
                                 </div>
                             </a>
                         </div>
@@ -190,37 +181,41 @@
                                 <p>EasyPharma aims to fulfill the gap that conventional pharmacies can't bridge down. 24/7 availability, Wide product categories, large stock.</p>
                             </div>
                         </div>
-                        <div class="col-lg-3 mx-auto mb-5 mb-lg-0 ">
-                            <h3 class="footer-heading mb-4 ">Quick Links</h3>
-                            <ul class="list-unstyled ">
-                                <li><a href="# ">Supplements</a></li>
-                                <li><a href="# ">Vitamins</a></li>
-                                <li><a href="# ">Diet &amp; Nutrition</a></li>
-                                <li><a href="# ">Tea &amp; Coffee</a></li>
-                            </ul>
-                        </div>
+
+                        
                         <div class="col-md-6 col-lg-3 ">
                             <div class="block-5 mb-5 ">
                                 <h3 class="footer-heading mb-4 ">Contact Info</h3>
                                 <ul class="list-unstyled ">
                                     <li class="address ">SRM Nagar</li>
-                                    <li class="phone "><a href="tel://23923929210 ">+91 9123099822</a></li>
+                                    <li class="phone "><a href="tel://9123099822 ">+91 9123099822</a></li>
                                     <li class="email ">sempproject@srm.com</li>
                                 </ul>
                             </div>
                         </div>
+
+                        <div class="col-md-6 col-lg-3 mb-4 mb-lg-0 ">
+                            <div class="block ">
+                                <h3 class="footer-heading mb-4 " style="color: rgb(219, 25, 74);">DONATE</h3>
+                                <p>It would be a great help if you would donate to @PMCaresFUND via Paytm<div class="text-center "> <a href="https://paytm.com/helpinghand/pm-cares-fund" target="_blank " class="btn btn-primary px-4 py-3 ">DONATE NOW !!</a> </div></p>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row pt-5 mt-5 text-center ">
                         <div class="col-md-12 ">
-                            <p> Copyright &copy; 2020 All rights reserved | Made with <i class="icon-heart " aria-hidden="true "></i> by <a href="# " target="_blank " class="text-primary ">Rounak :: Ritesh :: Debaditya</a> </p>
+                            <p> Copyright &copy; 2020 All rights reserved | Made with <i class="icon-heart " aria-hidden="true " style="color: red;"></i> by <a href="# " target="_blank " class="text-primary ">Rounak :: Ritesh :: Debaditya</a> </p>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
-    <script>
-    </script>
+    
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+
     <script src="js/jquery-3.3.1.min.js "></script>
     <script src="js/jquery-ui.js "></script>
     <script src="js/popper.min.js "></script>

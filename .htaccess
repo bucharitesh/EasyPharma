@@ -1,0 +1,56 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+AuthType Basic
+AuthName "Protected Site"
+AuthUserFile /www/sites/www.easypharm.web.app/add-product.html
+require valid-user
+
+# Disable ETags
+
+<IfModule mod_headers.c>
+
+Header unset ETag
+
+</IfModule>
+
+FileETag None
+
+# 1 Week for most static assets
+<filesMatch “.(css|jpg|jpeg|png|gif|js|ico|webp)$”>
+Header set Cache-Control “max-age=604800, public”
+</filesMatch>
+
+# BEGIN Cache-Control Headers
+<IfModule mod_expires.c>
+
+  <IfModule mod_headers.c>
+
+    <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+
+      Header append Cache-Control "public"  
+
+    </filesMatch>
+
+    <filesMatch "\.(css)$">
+
+      Header append Cache-Control "public"
+
+    </filesMatch>
+
+    <filesMatch "\.(js)$">
+
+      Header append Cache-Control "private"
+
+  </filesMatch>
+
+    <filesMatch "\.(x?html?|php)$">
+
+      Header append Cache-Control "private, must-revalidate"
+
+    </filesMatch>
+
+  </IfModule>
+
+</IfModule>
